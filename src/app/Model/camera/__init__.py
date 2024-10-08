@@ -1,1 +1,1 @@
-import camera, client, server
+from app.Model.camera import client

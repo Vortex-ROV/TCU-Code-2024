@@ -26,3 +26,6 @@ dependencies = [
     "pyzmq==26.2.0",
     "simplejpeg==1.7.6"
 ]
+
+[project.scripts]
+client_demo = "app.Model.camera.__main__:main"
