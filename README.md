@@ -1,6 +1,6 @@
 # Evolved Topside Control Unit (TCU) Code Repository
 
-Welcome to the repository for the Topside Control Unit (TCU) of Vortex ROV! This README will guide you through the file structure of the TCU software.
+Welcome to the repository for the Evolved Topside Control Unit (TCU) of Vortex ROV! This README will guide you through the file structure of the TCU software.
 
 ## Table of Contents
 
