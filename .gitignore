@@ -1,0 +1,7 @@
+__pycache__
+.vscode
+.venv
+venv
+.idea
+build
+tcu.egg-info

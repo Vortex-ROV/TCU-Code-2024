@@ -1,0 +1,78 @@
+{
+  "Xbox 360 Controller": {
+    "buttons_cnt": 11,
+
+    "lateral": 0,
+    "forward": 1,
+    "throttle": 3,
+    "yaw_l": 4,
+    "yaw_r": 5,
+
+    "gripper_1": 0,
+    "light": 1,
+    "arm_rotating_gripper": 2,
+    "gripper_2": 3,
+    "rotating_gripper_left": 4,
+    "rotating_gripper_right": 5,
+    "auto": 7,
+    "arm": 8,
+    "disarm": 9
+  },
+  "Controller (Xbox One For Windows)": {
+    "buttons_cnt": 11,
+
+    "lateral": 0,
+    "forward": 1,
+    "throttle": 3,
+    "yaw_l": 4,
+    "yaw_r": 5,
+
+    "gripper_1": 0,
+    "light": 1,
+    "arm_rotating_gripper": 2,
+    "gripper_2": 3,
+    "rotating_gripper_left": 4,
+    "rotating_gripper_right": 5,
+    "auto": 7,
+    "arm": 8,
+    "disarm": 9
+  },
+  "PS4 Controller": {
+    "buttons_cnt": 16,
+
+    "lateral": 0,
+    "forward": 1,
+    "throttle": 3,
+    "yaw_r": 4,
+    "yaw_l": 5,
+
+    "gripper_1": 0,
+    "light": 1,
+    "arm_rotating_gripper": 2,
+    "gripper_2": 3,
+    "rotating_gripper_left": 4,
+    "rotating_gripper_right": 5,
+    "auto": 6,
+    "arm": 8,
+    "disarm": 9
+  },
+  "DualSense Wireless Controller": {
+    "buttons_cnt": 17,
+
+    "lateral": 0,
+    "forward": 1,
+    "throttle": 3,
+    "yaw_r": 4,
+    "yaw_l": 5,
+
+    "gripper_1": 0,
+    "light": 1,
+    "arm_rotating_gripper": 2,
+    "gripper_2": 3,
+    "auto": 6,
+    "arm": 7,
+    "disarm": 8,
+    "rotating_gripper_left": 9,
+    "rotating_gripper_right": 10
+  }
+}

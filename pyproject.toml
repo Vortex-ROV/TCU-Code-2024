@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "VXTCUevo"
+version = "1.0.0"
+
+dependencies = [
+    "PyQt5==5.15.11",
+    "PyQt5-Qt5==5.15.2",
+    "PyQt5-sip==12.15.0",
+    "numpy==2.1.1",
+    "opencv-python==4.10.0.84",
+    "pygame==2.6.0",
+    "certifi==2024.8.30",
+    "charset-normalizer==3.3.2",
+    "colorama==0.4.6",
+    "colorlog==6.8.2",
+    "cython==3.0.11",
+    "idna==3.10",
+    "requests==2.32.3",
+    "tqdm==4.66.5",
+    "urllib3==2.2.3", 
+    "vidgear==0.3.3",
+    "pyzmq==26.2.0",
+    "simplejpeg==1.7.6"
+]
