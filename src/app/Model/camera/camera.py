@@ -1,6 +1,7 @@
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import QThread, pyqtSignal
 import cv2
+from client import NetgearClient
 from vidgear.gears import NetGear
 import sys
 import os
@@ -11,24 +12,12 @@ class CameraThread(QThread):
 
     def __init__(self, address = "192.168.33.100", port = "5454"):
         super(CameraThread, self).__init__()
-        options={
-            "max_retries":sys.maxsize
-        }
-        self.client = NetGear(
-            address = address,
-            port = port,
-            protocol = "tcp",
-            pattern = 1,
-            receive_mode = True,
-            logging = True,
-            # request_timeout = sys.maxsize,
-            **options
-        )
+        self.client = NetgearClient(Address=address,Port=port)
 
     def run(self):
         i=0
         while True:
-            frame = self.client.recv() # A frame is sent every 50 milliseconds, and maybe every 25 milliseconds
+            frame = self.client.Receive()
             i+=1
             if frame is not None:
                 # rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)

@@ -2,9 +2,7 @@ import time
 import cv2
 import numpy as np
 import sys
-from queue import Queue
 from vidgear.gears import NetGear
-import threading
 
 class NetgearClient:
     """
@@ -21,7 +19,8 @@ class NetgearClient:
             "jpeg_compression": True,
             "jpeg_compression_quality": 90,
             "jpeg_compression_fastdct": True,
-            "jpeg_compression_fastupsample": True
+            "jpeg_compression_fastupsample": True,
+            "max_retries": sys.maxsize
         }
         self.client = NetGear(
             receive_mode=True,
@@ -32,29 +31,37 @@ class NetgearClient:
             logging=True,
             **options
         )
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.Close()
 
+    def Receive(self):
+        """
+        Receive a frame from the server
+        """
+        return self.client.recv()
+
+    def Close(self):
+        """
+        Close the connection
+        """
+        self.client.close()
+
+        
 def main():
-    """
-    Main function to run the client
-    """
-    # Create the client object
-    Client = NetgearClient()
-    t = time.time()
-    # Loop to receive frames
-    for i in range(5000):
-        # Receive frames from the server
-        frame = Client.client.recv()
-        # If NoneType
-        if frame is None:
-            break
-        # Display the frame
-        cv2.imshow("frame",frame)
-        cv2.waitKey(1)
-    # Calculate the frame rate
-    print(5000/(time.time()-t))
-    # Close the stream
-    Client.client.close()
+    with NetgearClient() as client:
+        while True:
+            frame = client.Receive()
+            if frame is not None:
+                cv2.imshow("Client", frame)
+                key = cv2.waitKey(1) 
+                if key == ord('q'):
+                    break
+        cv2.destroyAllWindows()
+        client.Close() # close the connection
+
 
 if __name__ == "__main__":
     main()
-
