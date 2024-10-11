@@ -18,8 +18,8 @@ To set up the TCU software on your development environment, follow these steps:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/Vortex-ROV/TCU-Code.git
-   cd TCU-Code
+   git clone https://github.com/Vortex-ROV/TCUevo-Code.git
+   cd TCUevo-Code
    ```
    
 2. **Create and Activate a Virtual Environment:**
