@@ -1,7 +1,7 @@
-from communication.socket.client import ClientSocket
-from communication.messages import Message, SensorMessage
-from communication.pixhawk.pixhawk import Pixhawk
-from communication.pixhawk.sensors import SensorsCollector
+from app.Model.communication.socket.client import ClientSocket
+from app.Model.communication.messages import Message, SensorMessage
+from app.Model.communication.pixhawk.pixhawk import Pixhawk
+from app.Model.communication.pixhawk.sensors import SensorsCollector
 
 class CompanionLink:
     def __init__(self, address: str = "192.168.33.1", port: int = 4096):

@@ -24,9 +24,11 @@ dependencies = [
     "urllib3==2.2.3", 
     "vidgear==0.3.3",
     "pyzmq==26.2.0",
-    "simplejpeg==1.7.6"
+    "simplejpeg==1.7.6",
+    
 ]
 
 [project.scripts]
 client_demo = "app.Model.camera.__main__:main"
 joystick = "app.Model.joystick.joystick:main"
+gui = "app.View.main:main"

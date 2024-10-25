@@ -1,6 +1,6 @@
 import unittest
 import pygame
-from communication import Message
+from app.Model.communication import Message
 import copy
 import json
 import pygame
