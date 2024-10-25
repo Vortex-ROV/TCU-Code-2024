@@ -4,4 +4,4 @@ __pycache__
 venv
 .idea
 build
-tcu.egg-info
+*.egg-info

@@ -29,3 +29,4 @@ dependencies = [
 
 [project.scripts]
 client_demo = "app.Model.camera.__main__:main"
+joystick = "app.Model.joystick.joystick:main"
