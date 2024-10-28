@@ -20,7 +20,8 @@ class NetgearClient:
             "jpeg_compression_quality": 90,
             "jpeg_compression_fastdct": True,
             "jpeg_compression_fastupsample": True,
-            "max_retries": sys.maxsize
+            "max_retries": sys.maxsize,
+            "bidirectional_mode": True  # Enable two-way communication
         }
         self.client = NetGear(
             receive_mode=True,
@@ -52,13 +53,18 @@ class NetgearClient:
         
 def main():
     with NetgearClient() as client:
+        start_time = time.time()  # Start time for FPS calculation
+
         while True:
             frame = client.Receive()
+            frame = frame[1] if frame is not None else None
             if frame is not None:
+                # print(f"Frame shape: {frame}, Frame type: {type(frame)}")
                 cv2.imshow("Client", frame)
                 key = cv2.waitKey(1) 
                 if key == ord('q'):
                     break
+ 
         cv2.destroyAllWindows()
         client.Close() # close the connection
 
