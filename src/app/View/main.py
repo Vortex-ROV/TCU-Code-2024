@@ -2,8 +2,8 @@ import sys
 import cv2
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtGui import QImage, QPixmap
-from camera import Camera
-from design import Ui_MainWindow
+from .camera import Camera
+from .design import Ui_MainWindow
 
 class MyMainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -21,8 +21,11 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         pixmap = QPixmap.fromImage(qImg)
         self.camera.setPixmap(pixmap)
 
-if __name__ == '__main__':
+def main():
     app = QApplication(sys.argv)
     window = MyMainWindow()
     window.show()
     sys.exit(app.exec())
+
+if __name__ == '__main__':
+    main()

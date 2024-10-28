@@ -1,18 +1,16 @@
 import unittest
 import pygame
-from communication.message import Message
+from app.Model.communication import Message
 import copy
 import json
 import pygame
-from PyQt5.QtCore import QThread, pyqtSignal
+from threading import Thread
 import time
 
 # from auto_transplanting import AutoTransplanting
 
 
-class JoyStick(QThread):
-    signal = pyqtSignal(bytes)
-
+class JoyStick(Thread):
     def __init__(self):
         super().__init__()
 
@@ -146,14 +144,15 @@ class JoyStick(QThread):
                 self.__message.set_value("flight_mode", "M")
 
         # set flight mode to depth hold and stop motor control when rotating gripper is armed
-        if self.__arm_rotating_gripper:
-            self.__message.set_value("flight_mode", "A")
-            self.__message.set_value("throttle", 1500)
-            self.__message.set_value("yaw", 1500)
-            self.__message.set_value("forward", 1500)
-            self.__message.set_value("lateral", 1500)
+        # if self.__arm_rotating_gripper:
+        #     self.__message.set_value("flight_mode", "A")
+        #     self.__message.set_value("throttle", 1500)
+        #     self.__message.set_value("yaw", 1500)
+        #     self.__message.set_value("forward", 1500)
+        #     self.__message.set_value("lateral", 1500)
 
         self.send_values()
+        time.sleep(0.01)
 
         # auto transplanting :(
         """
@@ -201,8 +200,7 @@ class JoyStick(QThread):
             return
 
         self.__old_message = copy.deepcopy(self.__message)
-        print(len(self.__message.bytes()))
-        self.signal.emit(self.__message.bytes())
+        # self.signal.emit(self.__message.bytes())
         time.sleep(0.01)
 
     def __handle_joystick_disconnect(self):
@@ -213,14 +211,14 @@ class JoyStick(QThread):
             self.__message = Message()
             if self.__message != self.__old_message:
                 self.__old_message = copy.deepcopy(self.__message)
-                self.signal.emit(self.__message.bytes())
+                # self.signal.emit(self.__message.bytes())
 
             print("No joystick connected")
             pygame.time.wait(100)
 
         self.__message.set_value("joystick_connect", True)
         self.__old_message = copy.deepcopy(self.__message)
-        self.signal.emit(self.__message.bytes())
+        # self.signal.emit(self.__message.bytes())
 
         print("joystick connected succesfully")
         self.__joystick = pygame.joystick.Joystick(0)
@@ -229,12 +227,11 @@ class JoyStick(QThread):
         self.__joystick_name = self.__joystick.get_name()
         print("Joystick Name:", self.__joystick_name)
 
-        self.__load_joystick_configurations("Src/joystick/configurations.json")
+        self.__load_joystick_configurations(
+            "src/app/Model/joystick/configurations.json"
+        )
         self.__prev_state = [False for _ in range(self.__configs["buttons_cnt"])]
         self.__prev_input = [False for _ in range(self.__configs["buttons_cnt"])]
-
-    def connect_signal(self, slot):
-        self.signal.connect(slot)
 
     def __load_joystick_configurations(self, json_path):
         data = {}
@@ -257,12 +254,10 @@ class JoyStick(QThread):
             clock.tick(fps)
 
 
-class Test(unittest.TestCase):
-
-    def test(self):
-        joystick = JoyStick()
-        joystick.run()
+def main():
+    joystick = JoyStick()
+    joystick.run()
 
 
 if __name__ == "__main__":
-    unittest.main()
+    main()
