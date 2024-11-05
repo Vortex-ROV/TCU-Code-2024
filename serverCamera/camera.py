@@ -1,7 +1,7 @@
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import QThread, pyqtSignal
 import cv2
-from .client import NetgearClient
+from client import NetgearClient
 from vidgear.gears import NetGear
 import sys
 import os
