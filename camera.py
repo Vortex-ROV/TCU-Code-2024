@@ -9,14 +9,14 @@ class Camera(QThread):
 
     def __init__(self, frame_callback=None, parent=None):
         super().__init__(parent)
-        self.frame_callback = frame_callback  # Callback for standalone mode
-        # self.frame = np.zeros((300, 300, 3), dtype=np.uint8)
+        self.frame_callback = frame_callback
 
     def run(self):
         """Main loop that handles both standalone and GUI modes."""
         self.cameraThread = NetgearClient()
         while True:
             frame = self.cameraThread.Receive()
+            # frame_size = (frame.shape[1], frame.shape[0])
             frame = frame[1] if frame is not None else None
             if frame is not None:
                 frame_rotated = cv2.flip(frame, 0)

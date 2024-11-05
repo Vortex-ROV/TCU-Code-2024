@@ -15,8 +15,12 @@ class VideoRecorder:
         list = os.listdir(directory)
         number_files = len(list)
         return number_files
-        
-    def __init__(self, frame_size, output_filename=f'D:/Vortex25/FramesUW/output_{get_num_of_files("D:/Vortex25/FramesUW/")}.mp4'):
+
+    def __init__(
+        self,
+        frame_size,
+        output_filename=f'videos/output_{get_num_of_files("videos/")}.mp4',
+    ):
         self.frame_size = frame_size
         self.output_filename = output_filename
         self.recording = False
@@ -24,7 +28,7 @@ class VideoRecorder:
 
     def start_recording(self):
         """Initializes the video writer and starts recording."""
-        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
         self.out = cv2.VideoWriter(self.output_filename, fourcc, 20.0, self.frame_size)
         self.recording = True
         print("Recording started...")
