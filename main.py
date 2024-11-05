@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtGui import QImage, QPixmap
 from camera import Camera
 from design import Ui_MainWindow
+from joystick.joystick import JoyStick
+from communication.link import MavproxyLink, CompanionLink
 
 class MyMainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -13,6 +15,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.cameraThread = Camera()
         self.cameraThread.frame_received.connect(self.update_camera_stream)
         self.cameraThread.start()
+
+        self.joystick_thread = JoyStick()
+        self.joystick_thread.link = MavproxyLink()
+        self.joystick_thread.start()
 
     def update_camera_stream(self, frame):
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
