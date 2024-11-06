@@ -1,7 +1,5 @@
 __pycache__
-.vscode
-.venv
-venv
-.idea
+RangersCameraUI
+ui
 build
-tcu.egg-info
+venv
