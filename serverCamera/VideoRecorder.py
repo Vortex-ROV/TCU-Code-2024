@@ -11,17 +11,22 @@ class VideoRecorder:
         output_filename (str): Name of the output video file (default: 'output.mp4').
     """
 
+    @staticmethod
     def get_num_of_files(directory):
-        list = os.listdir(directory)
-        number_files = len(list)
-        return number_files
+        if not os.path.exists(directory):
+            os.makedirs(directory)  # Create the directory if it does not exist
+        return len(os.listdir(directory))
 
     def __init__(
         self,
         frame_size,
-        output_filename=f'videos/output_{get_num_of_files("videos/")}.mp4',
+        output_filename=None,
     ):
         self.frame_size = frame_size
+        directory = 'videos/'
+        if output_filename is None:
+            # Generate a default output filename based on the number of files
+            output_filename = f'{directory}output_{VideoRecorder.get_num_of_files(directory)}.mp4'
         self.output_filename = output_filename
         self.recording = False
         self.out = None
