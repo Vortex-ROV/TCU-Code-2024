@@ -2,4 +2,4 @@ __pycache__
 RangersCameraUI
 ui
 build
-venv
+*venv*
