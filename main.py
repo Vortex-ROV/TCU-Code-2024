@@ -24,6 +24,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.videoRecorder = None
         self.recordStat = False
         self.record.clicked.connect(self.startRecording)
+        self.saveFrame.clicked.connect(self.prnit)
 
     def update_camera_stream(self, frame):
         if self.videoRecorder is None:

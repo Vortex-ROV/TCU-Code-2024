@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'design.ui'
+# Form implementation generated from reading ui file 'test.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.11
 #
@@ -17,27 +17,33 @@ class Ui_MainWindow(object):
         MainWindow.resize(1600, 900)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayout_main = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout_main.setObjectName("verticalLayout_main")
         self.cameraFrame = QtWidgets.QFrame(self.centralwidget)
-        self.cameraFrame.setGeometry(QtCore.QRect(5, 5, 1590, 800))
         self.cameraFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.cameraFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.cameraFrame.setObjectName("cameraFrame")
+        self.verticalLayout_camera = QtWidgets.QVBoxLayout(self.cameraFrame)
+        self.verticalLayout_camera.setObjectName("verticalLayout_camera")
         self.camera = QtWidgets.QLabel(self.cameraFrame)
-        self.camera.setGeometry(QtCore.QRect(10, 10, 1570, 975))
         self.camera.setText("")
         self.camera.setAlignment(QtCore.Qt.AlignCenter)
         self.camera.setObjectName("camera")
+        self.verticalLayout_camera.addWidget(self.camera)
+        self.verticalLayout_main.addWidget(self.cameraFrame)
         self.buttonFrame = QtWidgets.QFrame(self.centralwidget)
-        self.buttonFrame.setGeometry(QtCore.QRect(5, 830, 230, 50))
         self.buttonFrame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.buttonFrame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.buttonFrame.setObjectName("buttonFrame")
+        self.horizontalLayout_buttons = QtWidgets.QHBoxLayout(self.buttonFrame)
+        self.horizontalLayout_buttons.setObjectName("horizontalLayout_buttons")
         self.saveFrame = QtWidgets.QPushButton(self.buttonFrame)
-        self.saveFrame.setGeometry(QtCore.QRect(10, 10, 95, 35))
         self.saveFrame.setObjectName("saveFrame")
+        self.horizontalLayout_buttons.addWidget(self.saveFrame)
         self.record = QtWidgets.QPushButton(self.buttonFrame)
-        self.record.setGeometry(QtCore.QRect(120, 10, 95, 35))
         self.record.setObjectName("record")
+        self.horizontalLayout_buttons.addWidget(self.record)
+        self.verticalLayout_main.addWidget(self.buttonFrame)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -46,15 +52,5 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.saveFrame.setText(_translate("MainWindow", "Save Frame"))
+        self.saveFrame.setText(_translate("MainWindow", "Aruco Marker"))
         self.record.setText(_translate("MainWindow", "Record"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
