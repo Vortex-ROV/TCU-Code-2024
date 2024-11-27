@@ -1,32 +1,28 @@
-import time
 import cv2
-import numpy as np
-import sys
 from vidgear.gears import NetGear
+from .ArucoMarkerDetector import ArucoDetector  # Import the ArucoDetector class
 
 class NetgearClient:
     """
-    Create a tcp Netgear Client object
+    Creates a TCP NetGear Client object to receive frames from the server.
     
     Args:
-        address (str): IP address of the server
-        port (str): Port number of the server
-        options (dict): Options for the Netgear object
+        address (str): IP address of the server (default: "192.168.33.100")
+        port (str): Port number of the server (default: "5454")
     """
 
-    def __init__(self,Address="192.168.33.100",Port="5454") -> None:
+    def __init__(self, address="192.168.33.100", port="5454") -> None:
         options = {
             "jpeg_compression": True,
-            "jpeg_compression_quality": 90,
+            "jpeg_compression_quality": 80,
             "jpeg_compression_fastdct": True,
             "jpeg_compression_fastupsample": True,
-            "max_retries": sys.maxsize,
-            "bidirectional_mode": True  # Enable two-way communication
+            "bidirectional_mode": True,
         }
         self.client = NetGear(
             receive_mode=True,
-            address=Address,
-            port=Port,
+            address=address,
+            port=port,
             protocol="tcp",
             pattern=1,
             logging=True,
@@ -52,22 +48,44 @@ class NetgearClient:
 
         
 def main():
+    """
+    Main function to receive, display, and optionally record frames from the server.
+    """
     with NetgearClient() as client:
-        start_time = time.time()  # Start time for FPS calculation
+        aruco_detector = ArucoDetector()  # Instantiate ArucoDetector
+        detection_mode = False  # Start with detection mode off
 
         while True:
-            frame = client.Receive()
-            frame = frame[1] if frame is not None else None
-            if frame is not None:
-                # print(f"Frame shape: {frame}, Frame type: {type(frame)}")
-                cv2.imshow("Client", frame)
-                key = cv2.waitKey(1) 
-                if key == ord('q'):
-                    break
- 
-        cv2.destroyAllWindows()
-        client.Close() # close the connection
+            # Receive frames from the server
+            frame = client.client.recv()[1]
 
+            # Break the loop if no frame is received
+            if frame is None:
+                print("No more frames received. Exiting.")
+                break
+
+            # Process frame based on the current mode
+            if detection_mode:
+                # aruco_detector.update_frame(frame)  # Update for detection
+                # display_frame = aruco_detector.processed_frame if aruco_detector.processed_frame is not None else frame
+                display_frame = aruco_detector.detect_aruco_markers(frame)  # Detect ArUco markers
+            else:
+                display_frame = frame  # Show raw frame if detection is off
+
+            # Display the selected frame in the same window
+            cv2.imshow("Frame", cv2.flip(display_frame, 0))
+
+            # Key press handling
+            key = cv2.waitKey(1) & 0xFF
+            if key == ord('q'):  # Exit on 'q'
+                break
+            elif key == ord('d'):  # Toggle detection mode on 'd'
+                detection_mode = not detection_mode
+                print("Detection mode:", "ON" if detection_mode else "OFF")
+
+        # Release resources
+        cv2.destroyAllWindows()
+        client.Close()
 
 if __name__ == "__main__":
     main()

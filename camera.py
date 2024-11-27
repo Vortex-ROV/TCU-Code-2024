@@ -26,7 +26,7 @@ class Camera(QThread):
                         self.is_running = False
                         break
                 else:
-                    self.frame_received.emit(frame_rotated)
+                    self.frame_received.emit(frame)
         self.stop()
 
         cv2.destroyAllWindows()

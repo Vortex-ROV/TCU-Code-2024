@@ -61,7 +61,7 @@ class Pixhawk:
         
     def set_direction_channel_pwm(self, channel3,channel4,channel5,channel6):
         # Create an array to hold the RC channel values
-        print(channel3 , channel4 )
+        # print(channel3 , channel4 )
         rc_channel_values = [1500, 1500,channel3,channel4,channel5,channel6, 65535, 65535, 65535]
 
         # Send the RC channel override command
@@ -86,7 +86,7 @@ class Pixhawk:
         }
         
         modeName = mode.get(mode_char)
-        print("mode name:" , modeName )
+        # print("mode name:" , modeName )
         if modeName not in self.master.mode_mapping():
         
             print('Unknown mode : {}'.format(modeName))
@@ -94,7 +94,7 @@ class Pixhawk:
             sys.exit(1)
         
         mode_id = self.master.mode_mapping()[modeName]
-        print("ID:",mode_id)
+        # print("ID:",mode_id)
         self.master.mav.set_mode_send(
     self.master.target_system,
     mavutil.mavlink.MAV_MODE_FLAG_CUSTOM_MODE_ENABLED,

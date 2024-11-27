@@ -1,6 +1,5 @@
-import datetime
-import cv2
 import os
+import cv2
 
 class VideoRecorder:
     """
@@ -11,18 +10,22 @@ class VideoRecorder:
         output_filename (str): Name of the output video file (default: 'output.mp4').
     """
 
+    @staticmethod
     def get_num_of_files(directory):
-        list = os.listdir(directory)
-        number_files = len(list)
-        return number_files
+        """Counts the number of files in the given directory."""
+        return len(os.listdir(directory))
 
-    def __init__(
-        self,
-        frame_size,
-        output_filename=f'videos/output_{get_num_of_files("videos/")}.mp4',
-    ):
+    def __init__(self, frame_size):
+        # Ensure the 'videos' directory exists
+        self.video_directory = "videos"
+        if not os.path.exists(self.video_directory):
+            os.makedirs(self.video_directory)  # Create the directory if it doesn't exist
+        
+        # Generate the output filename based on the number of files
+        num_files = self.get_num_of_files(self.video_directory)
+        self.output_filename = os.path.join(self.video_directory, f'output_{num_files}.mp4')
+        
         self.frame_size = frame_size
-        self.output_filename = output_filename
         self.recording = False
         self.out = None
 
@@ -31,7 +34,7 @@ class VideoRecorder:
         fourcc = cv2.VideoWriter_fourcc(*"mp4v")
         self.out = cv2.VideoWriter(self.output_filename, fourcc, 20.0, self.frame_size)
         self.recording = True
-        print("Recording started...")
+        print(f"Recording started... Output file: {self.output_filename}")
 
     def stop_recording(self):
         """Stops recording and releases the video writer."""

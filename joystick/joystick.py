@@ -216,7 +216,7 @@ class JoyStick(Thread):
                 self.__old_message = copy.deepcopy(self.__message)
                 # self.signal.emit(self.__message.bytes())
 
-            print("No joystick connected")
+            # print("No joystick connected")
             pygame.time.wait(100)
 
         self.__message.set_value("joystick_connect", True)
