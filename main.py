@@ -6,11 +6,13 @@ from camera import Camera
 from design import Ui_MainWindow
 from joystick.joystick import JoyStick
 from communication.link import MavproxyLink, CompanionLink
+from communication.messages import Message
 from serverCamera.VideoRecorder import VideoRecorder
 from serverCamera.ArucoMarkerDetector import ArucoDetector
 
 class MyMainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
+
         super().__init__()
         self.setupUi(self)
 
@@ -19,7 +21,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.cameraThread.start()
 
         self.joystick_thread = JoyStick()
-        self.joystick_thread.link = MavproxyLink()
+        self.joystick_thread.link = MavproxyLink(port=14550)
         self.joystick_thread.start()
         self.aruco_marker_detection = ArucoDetector(self.joystick_thread.link)
 
@@ -46,6 +48,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
         # Convert frame for display in the GUI
         processed_frame = cv2.flip(processed_frame, 0)
+        processed_frame = cv2.flip(processed_frame, 1)
         frame_rgb = cv2.cvtColor(processed_frame, cv2.COLOR_BGR2RGB)
         qImg = QImage(frame_rgb.data, frame_rgb.shape[1], frame_rgb.shape[0], frame_rgb.strides[0], QImage.Format_RGB888)
         pixmap = QPixmap.fromImage(qImg)
@@ -70,6 +73,11 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.arucoDetectionEnabled = not self.arucoDetectionEnabled
         state = "enabled" if self.arucoDetectionEnabled else "disabled"
         print(f"ArUco marker detection {state}")
+
+        if not self.arucoDetectionEnabled:
+            msg = Message()
+            msg.set_value("armed", False)
+            self.joystick_thread.link.control_pixhawk(msg)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

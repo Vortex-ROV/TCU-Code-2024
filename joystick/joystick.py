@@ -46,7 +46,7 @@ class JoyStick(Thread):
 
     def __map_axis(self, axis_value) -> int:
         base = 1500
-        range = 160
+        range = 300
         tolerance = 0.05
 
         if axis_value > tolerance or axis_value < -tolerance:
@@ -62,17 +62,17 @@ class JoyStick(Thread):
         self.__message.set_value(
             "yaw",
             self.__map_axis(
-                (self.__joystick.get_axis(self.__configs["yaw_r"]) / 2 + 0.5)
-                - (self.__joystick.get_axis(self.__configs["yaw_l"]) / 2 + 0.5)
+                -(self.__joystick.get_axis(self.__configs["yaw_r"]) / 2 + 0.5)
+                + (self.__joystick.get_axis(self.__configs["yaw_l"]) / 2 + 0.5)
             ),
         )
         self.__message.set_value(
             "forward",
-            self.__map_axis(-self.__joystick.get_axis(self.__configs["forward"])),
+            self.__map_axis(self.__joystick.get_axis(self.__configs["forward"])),
         )
         self.__message.set_value(
             "lateral",
-            self.__map_axis(self.__joystick.get_axis(self.__configs["lateral"])),
+            self.__map_axis(-self.__joystick.get_axis(self.__configs["lateral"])),
         )
 
         self.__message.set_value(

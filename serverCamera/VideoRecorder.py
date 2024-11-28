@@ -45,5 +45,6 @@ class VideoRecorder:
 
     def write_frame(self, frame):
         """Writes a frame to the video file if recording."""
+        # flipped = cv2.flip(frame,0)
         if self.recording and self.out is not None:
-            self.out.write(frame)
+            self.out.write(flipped)

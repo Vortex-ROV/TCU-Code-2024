@@ -121,12 +121,18 @@ class ArucoDetector:
                     self.move_camera(x_diff, y_diff)
                 else:
                     self.pid.update(x_diff, y_diff)
-                    self.companion_link.control_pixhawk(Message())
+                    msg = Message()
+                    msg.set_value("armed", True)
+                    msg.set_value("throttle", 1200)
+                    self.companion_link.control_pixhawk(msg)
                     print("Marker is within the center circle. No movement needed.")
 
                 break  # Process only the first marker for simplicity
         else:
-            self.companion_link.control_pixhawk(Message())
+            msg = Message()
+            msg.set_value("armed", True)
+            msg.set_value("throttle", 1200)
+            self.companion_link.control_pixhawk(msg)
 
         return frame
 
@@ -144,7 +150,7 @@ class ArucoDetector:
         x_output, y_output = self.pid.update(x_diff, y_diff)
 
         if abs(x_diff) > 10:
-            value = 1500 + int(x_output)
+            value = 1500 - int(x_output)
             if value > 1800:
                 value = 1800
             elif value < 1200:
@@ -162,6 +168,7 @@ class ArucoDetector:
             message.set_value("armed", True)
             message.set_value("forward", value)
 
+        message.set_value("throttle", 1200)
         self.companion_link.control_pixhawk(message)
 
     
