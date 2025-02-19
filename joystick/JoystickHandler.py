@@ -11,6 +11,8 @@ class JoystickHandler:
 
         # Dictionary to store axis values separately
         self.axis_states = {key:0.00 for key in range(6)}
+        self.axis_states[4] = -1.00
+        self.axis_states[5] = -1.00
 
         # Button mappings (mapping button index to dictionary keys)
         self.button_actions = {
@@ -45,11 +47,11 @@ class JoystickHandler:
             self.joysticks[joy_id].quit()
             del self.joysticks[joy_id]
             print("⚠️ Please reconnect your joystick!")
-        # elif joy_id not in self.joysticks:
-        #     joystick = pygame.joystick.Joystick(joy_id)
-        #     joystick.init()
-        #     self.joysticks[joy_id] = joystick  # Store joystick object instead of True
-        #     print(f"✅ Joystick {joystick.get_name()} (ID: {joy_id}) connected.")
+        elif joy_id not in self.joysticks:
+            joystick = pygame.joystick.Joystick(joy_id)
+            joystick.init()
+            self.joysticks[joy_id] = joystick  # Store joystick object instead of True
+            print(f"✅ Joystick {joystick.get_name()} (ID: {joy_id}) connected.")
 
     def handle_joy(self):
         for event in pygame.event.get():
@@ -67,7 +69,10 @@ class JoystickHandler:
             elif event.type == pygame.JOYHATMOTION:
                 directions = self.button_actions.get(event.value, "neutral")
                 if directions != "neutral":
-                    self.button_states[directions] = not self.button_states.get(directions, False)
+                    for key in self.button_states: # Set all other hats to False
+                        if key != directions and key in self.button_actions.values():
+                            self.button_states[key] = False
+                    self.button_states[directions] = True
                     state_text = "pressed" if self.button_states[directions] else "released"
                     self.print_results(f"{directions} {state_text}")
             
