@@ -1,9 +1,10 @@
 import socket
+import serial
 
 class ServerSocket:
     def __init__(self, port: int):
         self.__welcoming_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.__welcoming_socket.bind(('localhost', port))
+        self.__welcoming_socket.bind(('192.168.33.1', port))
         self.__welcoming_socket.listen()
 
     def __del__(self):
@@ -41,20 +42,14 @@ class ServerSocket:
         except AttributeError as e:
             pass
 
+if __name__ == "__main__":
+    s = serial.Serial("COM6", 9600)
+    server = ServerSocket(4096)
+    server.accept()
 
-server = ServerSocket(12345)
-server.accept()
-
-t = 0
-while True:
-    received = server.receive(1024)
-    if received is not None and len(received) != 0:
-        print(received)
-# server = ServerSocket(12345)
-# server.accept()
-
-# t = 0
-# while True:
-#     received = server.receive(1024)
-#     if received is not None and len(received) != 0:
-#         print(received)
+    while True:
+        received = server.receive(1024)
+        if received is not None and len(received) != 0:
+            print(received)
+            s.write(received)
+            s.write(b'\n')
